@@ -1,9 +1,12 @@
 package priv.robin
 
-import org.apache.spark.sql.SparkSession
+import java.util.UUID
+
 
 object Test {
+  def main(args: Array[String]): Unit = {
 
-
+    print(UUID.randomUUID().toString.replace("-",""))
+  }
 
 }

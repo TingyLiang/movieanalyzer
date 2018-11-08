@@ -1,8 +1,8 @@
 package priv.robin
 
-import org.apache.spark.sql.SparkSession
+import java.util.UUID
 
-import scala.reflect.internal.util.TableDef.Column
+import org.apache.spark.sql.SparkSession
 
 object MovieRank {
   def main(args: Array[String]): Unit = {
@@ -14,18 +14,19 @@ object MovieRank {
     val path = "F:\\data\\ml-20m\\ratings.csv"
 
     val ds = spark.read.format("csv")
-      .option("header","true")
+      .option("header", "true")
       .load(path)
     //    ds.printSchema()
     //使用dataframe的操作比较麻烦，不灵活
-    val rank = ds.select("movieId","rating").groupBy("movieId")
+    //    val rank = ds.select("movieId","rating").groupBy("movieId")
 
     //注册成临时表，方便地使用sql直接进行数据分析
     ds.createOrReplaceTempView("temp")
-
-//    spark.sql("select * from temp").show(10)
+    //    spark.sql("select * from temp").show(10)
+    val  start = System.currentTimeMillis()
     spark.sql("select movieId, max(rating)  from temp group by movieId").show()
     spark.stop()
+
   }
 
 }
